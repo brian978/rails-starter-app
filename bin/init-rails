@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# shellcheck disable=SC2164
+cd /var/www/app
+
+if [[ ! -e Gemfile ]]; then
+  echo "Rails does not seem to be installed. Installing..."
+
+  gem install rails
+  rails new . -d mysql
+fi
+
+rm -rfv .bundle .local .git
