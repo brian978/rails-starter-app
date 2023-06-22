@@ -1,0 +1,16 @@
+#!/bin/bash
+
+docker run --name rails-setup \
+  --mount type=bind,src=./bin/init-rails,dst=/usr/local/init-rails \
+  --mount type=bind,src=./app,dst=/var/www/app \
+  --entrypoint "/usr/local/init-rails" \
+  --workdir /var/www/app \
+  brian978/ruby-rails:3.2-dev
+
+docker rm rails-setup
+
+sed -i '' '/default: &default/,/^\s*$/ s/username:.*$/username: <%= ENV["DB_USER"] %>/' app/config/database.yml
+sed -i '' '/default: &default/,/^\s*$/ s/password:.*$/password: <%= ENV["DB_PASSWORD"] %>/' app/config/database.yml
+sed -i '' '/default: &default/,/^\s*$/ s/host:.*$/host: <%= ENV["DB_HOST"] %>/' app/config/database.yml
+
+make build start

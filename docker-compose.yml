@@ -1,0 +1,41 @@
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8282:80"
+    depends_on:
+      - rb
+    volumes:
+      - ./app:/var/www/app:cached
+      - ./services/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - ./logs/nginx:/var/log/nginx
+
+  rb:
+    image: brian978/ruby-rails:3.2-dev
+    working_dir: /var/www/app
+    depends_on:
+      - db
+      - memcache
+    volumes:
+      - ./app:/var/www/app:cached
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: 12345
+
+  db:
+    image: mariadb:latest
+    ports:
+      - "33069:3306"
+    volumes:
+      - mysql-volume:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: app_devel
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: 12345
+
+  memcache:
+    image: memcached:latest
+
+volumes:
+  mysql-volume:
