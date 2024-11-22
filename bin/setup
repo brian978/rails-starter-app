@@ -9,4 +9,8 @@ docker run --name rails-setup \
 
 docker rm rails-setup
 
+sed -i '' '/default: &default/,/^\s*$/ s/username:.*$/username: <%= ENV["DB_USER"] %>/' app/config/database.yml
+sed -i '' '/default: &default/,/^\s*$/ s/password:.*$/password: <%= ENV["DB_PASSWORD"] %>/' app/config/database.yml
+sed -i '' '/default: &default/,/^\s*$/ s/host:.*$/host: <%= ENV["DB_HOST"] %>/' app/config/database.yml
+
 make build start
