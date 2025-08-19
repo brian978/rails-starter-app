@@ -5,7 +5,7 @@ docker run --name rails-setup \
   --mount type=bind,src=./app,dst=/var/www/app \
   --entrypoint "/usr/local/init-rails" \
   --workdir /var/www/app \
-  brian978/ruby-rails:3.2-dev
+  brian978/ruby-rails:3.4-dev
 
 docker rm rails-setup
 
