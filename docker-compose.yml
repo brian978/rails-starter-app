@@ -11,7 +11,7 @@ services:
       - ./logs/nginx:/var/log/nginx
 
   rb:
-    image: brian978/ruby-rails:3.2-dev
+    image: brian978/ruby-rails:4.0-dev
     working_dir: /var/www/app
     depends_on:
       - db
