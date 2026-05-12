@@ -24,7 +24,7 @@ services:
       DB_PASSWORD: 12345
 
   db:
-    image: mariadb:latest
+    image: mysql:8.4.9
     ports:
       - "33069:3306"
     volumes:
